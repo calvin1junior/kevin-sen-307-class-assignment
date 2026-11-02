@@ -1,0 +1,1618 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook 1",
+    "content": "\\about\n\nCREATE DATABASE IF NOT EXISTS sen307_2412620;\nUSE sen307_2412620;\n\n\nCREATE TABLE Department (\n    dept_id INT PRIMARY KEY AUTO_INCREMENT,\n    dept_name VARCHAR(100) NOT NULL UNIQUE\n) ENGINE=InnoDB;\n\n\nCREATE TABLE Lecturer (\n    lecturer_id INT PRIMARY KEY AUTO_INCREMENT,\n    staff_no VARCHAR(20) NOT NULL UNIQUE,\n    full_name VARCHAR(100) NOT NULL,\n    email VARCHAR(100) UNIQUE,\n    dept_id INT NOT NULL,\n    CONSTRAINT fk_lecturer_department\n        FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n) ENGINE=InnoDB;\n\n\nCREATE TABLE Student (\n    student_id INT PRIMARY KEY AUTO_INCREMENT,\n    matric_no VARCHAR(20) NOT NULL UNIQUE,\n    full_name VARCHAR(100) NOT NULL,\n    gender ENUM('M','F'),\n    date_of_birth DATE,\n    dept_id INT,\n    CONSTRAINT fk_student_department\n        FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n) ENGINE=InnoDB;\n\n\nCREATE TABLE Course (\n    course_id INT PRIMARY KEY AUTO_INCREMENT,\n    course_code VARCHAR(10) NOT NULL UNIQUE,\n    course_title VARCHAR(150) NOT NULL,\n    credit_units TINYINT NOT NULL DEFAULT 3,\n    description TEXT,\n    dept_id INT,\n    CONSTRAINT fk_course_department\n        FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n) ENGINE=InnoDB;\n\n\nCREATE TABLE Enrolment (\n    enrolment_id INT PRIMARY KEY AUTO_INCREMENT,\n    student_id INT NOT NULL,\n    course_id INT NOT NULL,\n    academic_session VARCHAR(9) NOT NULL DEFAULT '2026/2027',\n    semester ENUM('First','Second') NOT NULL DEFAULT 'First',\n    enrolled_on DATE DEFAULT (CURRENT_DATE),\n    UNIQUE (student_id, course_id, academic_session),\n    CONSTRAINT fk_enrolment_student\n        FOREIGN KEY (student_id) REFERENCES Student(student_id),\n    CONSTRAINT fk_enrolment_course\n        FOREIGN KEY (course_id) REFERENCES Course(course_id)\n) ENGINE=InnoDB;\n\n\nCREATE TABLE CourseAllocation (\n    allocation_id INT PRIMARY KEY AUTO_INCREMENT,\n    course_id INT NOT NULL,\n    lecturer_id INT NOT NULL,\n    academic_session VARCHAR(9) NOT NULL DEFAULT '2026/2027',\n    UNIQUE (course_id, lecturer_id, academic_session),\n    CONSTRAINT fk_allocation_course\n        FOREIGN KEY (course_id) REFERENCES Course(course_id),\n    CONSTRAINT fk_allocation_lecturer\n        FOREIGN KEY (lecturer_id) REFERENCES Lecturer(lecturer_id)\n) ENGINE=InnoDB;\n\n\nALTER TABLE Student\n    ADD COLUMN phone VARCHAR(15) AFTER full_name;\n\nALTER TABLE Course\n    ADD CONSTRAINT chk_credit_units\n    CHECK (credit_units BETWEEN 1 AND 6);\n\n\nSHOW TABLES;\nDESCRIBE Department;\nDESCRIBE Lecturer;\nDESCRIBE Student;\nDESCRIBE Course;\nDESCRIBE Enrolment;\nDESCRIBE CourseAllocation;\nSHOW CREATE TABLE Enrolment;\n\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 94,
+                    "column": 1
+                },
+                "position": {
+                    "lineNumber": 94,
+                    "column": 1
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 25,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -3
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 1,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 2,
+                            "content": "Welcome to the DB Notebook.\n\nUse DB Notebooks to explore MySQL data with executable SQL, JavaScript, and TypeScript code blocks.\n\n* Press Ctrl+Enter to execute or re-execute the selected code block.\n* Use Up and Down keys to move between code blocks.\n* Use Ctrl+Up and Ctrl+Down to navigate through the command history.\n\n* Execute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\n* Execute \\help or \\? for help;",
+                            "language": "ansi"
+                        }
+                    ]
+                },
+                "currentHeight": 194.65625,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 6
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 2,
+                "end": 93,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "aeb522c7-02bd-4118-950f-d843df486d69",
+                        "cb1b60dd-c45a-4d08-aa91-ad0205f31add",
+                        "96894b96-7003-487f-9d44-7ceeb13a86ac",
+                        "b74e35c6-a13b-4704-a81f-83741a38ef72",
+                        "386a0d91-97e0-4c90-8f3c-9f7b85896ae2",
+                        "21df82d4-5de3-4511-d177-763b9a71b46a",
+                        "f4ab13f8-7173-4e3b-953e-8782a174c690",
+                        "a6977c5d-2aa8-4dd2-fb52-db197fa0fa61",
+                        "04b8605a-4aee-4ec3-c49a-3f257a6c2620",
+                        "46286250-cadc-4214-ec03-661c9ec4e58b",
+                        "b823ed32-6297-499a-8ea8-e68dba40c694",
+                        "fa18a11c-8072-4174-a487-361c29432085",
+                        "69849aca-8cd7-4c6a-abd0-5af720bbd8c8",
+                        "3bc865b1-999e-4964-906f-db93e6e0c3fb",
+                        "1eace171-a0fc-4018-d72c-daf53d16b3d8",
+                        "dea8ff03-abb5-441f-dee6-9d6a7df34a9a",
+                        "68628cb0-0867-405a-ae53-1247202257e0",
+                        "9a8981cb-ed8b-405c-e80a-d19adb4ca161"
+                    ]
+                },
+                "currentHeight": 217,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 46
+                        },
+                        "contentStart": 1,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 46,
+                            "length": 20
+                        },
+                        "contentStart": 47,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 66,
+                            "length": 132
+                        },
+                        "contentStart": 69,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 198,
+                            "length": 326
+                        },
+                        "contentStart": 201,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 524,
+                            "length": 334
+                        },
+                        "contentStart": 527,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 858,
+                            "length": 353
+                        },
+                        "contentStart": 861,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1211,
+                            "length": 570
+                        },
+                        "contentStart": 1214,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1781,
+                            "length": 479
+                        },
+                        "contentStart": 1784,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2260,
+                            "length": 72
+                        },
+                        "contentStart": 2263,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2332,
+                            "length": 98
+                        },
+                        "contentStart": 2334,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2430,
+                            "length": 15
+                        },
+                        "contentStart": 2433,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2445,
+                            "length": 21
+                        },
+                        "contentStart": 2447,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2466,
+                            "length": 19
+                        },
+                        "contentStart": 2468,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2485,
+                            "length": 18
+                        },
+                        "contentStart": 2487,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2503,
+                            "length": 17
+                        },
+                        "contentStart": 2505,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2520,
+                            "length": 20
+                        },
+                        "contentStart": 2522,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2540,
+                            "length": 27
+                        },
+                        "contentStart": 2542,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2567,
+                            "length": 29
+                        },
+                        "contentStart": 2568,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2596,
+                            "length": 2
+                        },
+                        "contentStart": 2595,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "aeb522c7-02bd-4118-950f-d843df486d69",
+                    "rows": [
+                        {
+                            "0": "course"
+                        },
+                        {
+                            "0": "courseallocation"
+                        },
+                        {
+                            "0": "department"
+                        },
+                        {
+                            "0": "enrolment"
+                        },
+                        {
+                            "0": "lecturer"
+                        },
+                        {
+                            "0": "student"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Tables_in_sen307_2412620",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 6 records retrieved in 1.208ms"
+                    },
+                    "totalRowCount": 6,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 10,
+                    "sql": "\n\n\nSHOW TABLES",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "cb1b60dd-c45a-4d08-aa91-ad0205f31add",
+                    "rows": [
+                        {
+                            "0": "dept_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "dept_name",
+                            "1": "varchar(100)",
+                            "2": "NO",
+                            "3": "UNI",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 2 records retrieved in 1.204ms"
+                    },
+                    "totalRowCount": 2,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 11,
+                    "sql": "\nDESCRIBE Department",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "96894b96-7003-487f-9d44-7ceeb13a86ac",
+                    "rows": [
+                        {
+                            "0": "lecturer_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "staff_no",
+                            "1": "varchar(20)",
+                            "2": "NO",
+                            "3": "UNI",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "full_name",
+                            "1": "varchar(100)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "email",
+                            "1": "varchar(100)",
+                            "2": "YES",
+                            "3": "UNI",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "dept_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 5 records retrieved in 1.464ms"
+                    },
+                    "totalRowCount": 5,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 12,
+                    "sql": "\nDESCRIBE Lecturer",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "b74e35c6-a13b-4704-a81f-83741a38ef72",
+                    "rows": [
+                        {
+                            "0": "student_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "matric_no",
+                            "1": "varchar(20)",
+                            "2": "NO",
+                            "3": "UNI",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "full_name",
+                            "1": "varchar(100)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "phone",
+                            "1": "varchar(15)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "gender",
+                            "1": "enum('M','F')",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "date_of_birth",
+                            "1": "date",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "dept_id",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 7 records retrieved in 1.17ms"
+                    },
+                    "totalRowCount": 7,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 13,
+                    "sql": "\nDESCRIBE Student",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "386a0d91-97e0-4c90-8f3c-9f7b85896ae2",
+                    "rows": [
+                        {
+                            "0": "course_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "course_code",
+                            "1": "varchar(10)",
+                            "2": "NO",
+                            "3": "UNI",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "course_title",
+                            "1": "varchar(150)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "credit_units",
+                            "1": "tinyint",
+                            "2": "NO",
+                            "3": "",
+                            "4": "3",
+                            "5": ""
+                        },
+                        {
+                            "0": "description",
+                            "1": "text",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "dept_id",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 6 records retrieved in 1.294ms"
+                    },
+                    "totalRowCount": 6,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 14,
+                    "sql": "\nDESCRIBE Course",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "21df82d4-5de3-4511-d177-763b9a71b46a",
+                    "rows": [
+                        {
+                            "0": "enrolment_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "student_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "course_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "academic_session",
+                            "1": "varchar(9)",
+                            "2": "NO",
+                            "3": "",
+                            "4": "2026/2027",
+                            "5": ""
+                        },
+                        {
+                            "0": "semester",
+                            "1": "enum('First','Second')",
+                            "2": "NO",
+                            "3": "",
+                            "4": "First",
+                            "5": ""
+                        },
+                        {
+                            "0": "enrolled_on",
+                            "1": "date",
+                            "2": "YES",
+                            "3": "",
+                            "4": "curdate()",
+                            "5": "DEFAULT_GENERATED"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 6 records retrieved in 1.522ms"
+                    },
+                    "totalRowCount": 6,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 15,
+                    "sql": "\nDESCRIBE Enrolment",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "f4ab13f8-7173-4e3b-953e-8782a174c690",
+                    "rows": [
+                        {
+                            "0": "allocation_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "course_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "lecturer_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "academic_session",
+                            "1": "varchar(9)",
+                            "2": "NO",
+                            "3": "",
+                            "4": "2026/2027",
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 4 records retrieved in 1.504ms"
+                    },
+                    "totalRowCount": 4,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 16,
+                    "sql": "\nDESCRIBE CourseAllocation",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "a6977c5d-2aa8-4dd2-fb52-db197fa0fa61",
+                    "rows": [
+                        {
+                            "0": "Enrolment",
+                            "1": "CREATE TABLE `enrolment` (\n  `enrolment_id` int NOT NULL AUTO_INCREMENT,\n  `student_id` int NOT NULL,\n  `course_id` int NOT NULL,\n  `academic_session` varchar(9) NOT NULL DEFAULT '2026/2027',\n  `semester` enum('First','Second') NOT NULL DEFAULT 'First',\n  `enrolled_on` date DEFAULT (curdate()),\n  PRIMARY KEY (`enrolment_id`),\n  UNIQUE KEY `student_id` (`student_id`,`course_id`,`academic_session`),\n  KEY `fk_enrolment_course` (`course_id`),\n  CONSTRAINT `fk_enrolment_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),\n  CONSTRAINT `fk_enrolment_student` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Table",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Create Table",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 5.84ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 17,
+                    "sql": "\nSHOW CREATE TABLE Enrolment",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "04b8605a-4aee-4ec3-c49a-3f257a6c2620",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 row affected in 5.663ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "\nCREATE DATABASE IF NOT EXISTS sen307_2412620",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "46286250-cadc-4214-ec03-661c9ec4e58b",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 0.884ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 1,
+                    "sql": "\nUSE sen307_2412620",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "b823ed32-6297-499a-8ea8-e68dba40c694",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 18.11ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 2,
+                    "sql": "\n\n\nCREATE TABLE Department (\n    dept_id INT PRIMARY KEY AUTO_INCREMENT,\n    dept_name VARCHAR(100) NOT NULL UNIQUE\n) ENGINE=InnoDB",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "fa18a11c-8072-4174-a487-361c29432085",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 30.986ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 3,
+                    "sql": "\n\n\nCREATE TABLE Lecturer (\n    lecturer_id INT PRIMARY KEY AUTO_INCREMENT,\n    staff_no VARCHAR(20) NOT NULL UNIQUE,\n    full_name VARCHAR(100) NOT NULL,\n    email VARCHAR(100) UNIQUE,\n    dept_id INT NOT NULL,\n    CONSTRAINT fk_lecturer_department\n        FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n) ENGINE=InnoDB",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "69849aca-8cd7-4c6a-abd0-5af720bbd8c8",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 27.754ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 4,
+                    "sql": "\n\n\nCREATE TABLE Student (\n    student_id INT PRIMARY KEY AUTO_INCREMENT,\n    matric_no VARCHAR(20) NOT NULL UNIQUE,\n    full_name VARCHAR(100) NOT NULL,\n    gender ENUM('M','F'),\n    date_of_birth DATE,\n    dept_id INT,\n    CONSTRAINT fk_student_department\n        FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n) ENGINE=InnoDB",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "3bc865b1-999e-4964-906f-db93e6e0c3fb",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 22.728ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 5,
+                    "sql": "\n\n\nCREATE TABLE Course (\n    course_id INT PRIMARY KEY AUTO_INCREMENT,\n    course_code VARCHAR(10) NOT NULL UNIQUE,\n    course_title VARCHAR(150) NOT NULL,\n    credit_units TINYINT NOT NULL DEFAULT 3,\n    description TEXT,\n    dept_id INT,\n    CONSTRAINT fk_course_department\n        FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n) ENGINE=InnoDB",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "1eace171-a0fc-4018-d72c-daf53d16b3d8",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 30.67ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 6,
+                    "sql": "\n\n\nCREATE TABLE Enrolment (\n    enrolment_id INT PRIMARY KEY AUTO_INCREMENT,\n    student_id INT NOT NULL,\n    course_id INT NOT NULL,\n    academic_session VARCHAR(9) NOT NULL DEFAULT '2026/2027',\n    semester ENUM('First','Second') NOT NULL DEFAULT 'First',\n    enrolled_on DATE DEFAULT (CURRENT_DATE),\n    UNIQUE (student_id, course_id, academic_session),\n    CONSTRAINT fk_enrolment_student\n        FOREIGN KEY (student_id) REFERENCES Student(student_id),\n    CONSTRAINT fk_enrolment_course\n        FOREIGN KEY (course_id) REFERENCES Course(course_id)\n) ENGINE=InnoDB",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "dea8ff03-abb5-441f-dee6-9d6a7df34a9a",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 21.068ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 7,
+                    "sql": "\n\n\nCREATE TABLE CourseAllocation (\n    allocation_id INT PRIMARY KEY AUTO_INCREMENT,\n    course_id INT NOT NULL,\n    lecturer_id INT NOT NULL,\n    academic_session VARCHAR(9) NOT NULL DEFAULT '2026/2027',\n    UNIQUE (course_id, lecturer_id, academic_session),\n    CONSTRAINT fk_allocation_course\n        FOREIGN KEY (course_id) REFERENCES Course(course_id),\n    CONSTRAINT fk_allocation_lecturer\n        FOREIGN KEY (lecturer_id) REFERENCES Lecturer(lecturer_id)\n) ENGINE=InnoDB",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "68628cb0-0867-405a-ae53-1247202257e0",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 44.613ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 8,
+                    "sql": "\n\n\nALTER TABLE Student\n    ADD COLUMN phone VARCHAR(15) AFTER full_name",
+                    "updatable": false
+                },
+                {
+                    "tabId": "14398085-4e40-4d96-f00d-1b6c1efadea4",
+                    "resultId": "9a8981cb-ed8b-405c-e80a-d19adb4ca161",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 47.387ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 9,
+                    "sql": "\n\nALTER TABLE Course\n    ADD CONSTRAINT chk_credit_units\n    CHECK (credit_units BETWEEN 1 AND 6)",
+                    "updatable": false
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 94,
+                "end": 94,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 0
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}
